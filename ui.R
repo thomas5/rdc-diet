@@ -396,27 +396,28 @@ fluidPage(
                layout_column_wrap(
                  width = 1/2,  # two columns in one row
                  gap = "1rem",
-                  layout_column_wrap(
-                    width = 1/3,  # two columns in one row
-                    gap = "1rem",
-                    numericInput("rr_basic", NULL, value = 1.74, step = 0.01),
-                    actionButton("dec_basic", "-", class = "btn-sm", width="3rem"),
-                    actionButton("inc_basic", "+", class = "btn-sm")
-                     # h5("Basic:"),
-                     # div(class = "d-flex",
-                     #     numericInput("rr_basic", NULL, value = 1.74, step = 0.01),
-                     #     actionButton("dec_basic", "-", class = "btn-sm"),
-                     #     actionButton("inc_basic", "+", class = "btn-sm")
-                     # )
-                   ),
                  card(
                    card_body(
-                     # Use a heading as the label, then an inline flex row with bootstrap utilities
+                     h5("Basic:"),
+                     splitLayout(
+                       cellWidths = c("auto", "50px", "50px"),
+                       numericInput("rr_basic", NULL, value = 1.74, step = 0.01, width = "100%"),
+                       actionButton("dec_basic", "-", style = "height:100%; width:100%"),
+                       actionButton("inc_basic", "+", style = "height:100%; width:100%"),
+                       spacing = "0.5rem"
+                     )
+                   )
+                 ),
+                 
+                 card(
+                   card_body(
                      h5("Adjusted:"),
-                     div(class = "d-flex align-items-center gap-2",
-                         numericInput("rr_adj", NULL, value = 1.56, step = 0.01, width = "8.5rem"),
-                         actionButton("inc_adj", "-", class = "btn-sm"),
-                         actionButton("dec_adj", "+", class = "btn-sm")
+                     splitLayout(
+                       cellWidths = c("auto", "50px", "50px"),
+                       numericInput("rr_adj", NULL, value = 1.56, step = 0.01, width = "100%"),
+                       actionButton("dec_adj", "-", style = "height:100%; width:100%"),
+                       actionButton("inc_adj", "+", style = "height:100%; width:100%"),
+                       spacing = "0.5rem"
                      )
                    )
                  )
