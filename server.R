@@ -141,7 +141,7 @@ function(input, output, session) {
     })
     
     output$RRexact_adj <- renderUI({ 
-      tags$span(format(round(calc_RRexact(), 2), nsmall = 3)) 
+      tags$span(format(round(calc_RRexact(), 2), nsmall = 2)) 
     })
     
     observeEvent(input$inc_es1, {
