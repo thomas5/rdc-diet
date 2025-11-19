@@ -1,12 +1,12 @@
-name: rdc-diet-calc
-title: rdc-diet-calc
+name: rdc-diet-calc-v2
+title: rdc-diet-calc-v2
 username: kaisze5cghr
 account: kaisze5cghr
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 15956956
-bundleId: 11130324
-url: https://kaisze5cghr.shinyapps.io/rdc-diet-calc/
+appId: 16092453
+bundleId: 11193974
+url: https://kaisze5cghr.shinyapps.io/rdc-diet-calc-v2/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
