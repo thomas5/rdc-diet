@@ -97,6 +97,30 @@ function(input, output, session) {
   
   
   #New code added by Thomas
+  observe({
+    cat("DEBUG: str(es1):\n"); print(str(input$es1))
+    cat("DEBUG: str(es2):\n"); print(str(input$es2))
+    cat("DEBUG: str(es3):\n"); print(str(input$es3))
+    cat("DEBUG: str(esdelta):\n"); print(str(input$esdelta))
+    if (isTRUE(input$esdautochk)) {
+      disable("es1")
+      disable("es3")
+      enable("esdelta")
+    } else {
+      enable("es1")
+      enable("es3")
+      disable("esdelta")
+    }
+  })
+  
+  #Estimated (plausible) base value input
+  observeEvent(input$es2, {
+    if (isTRUE(input$esdautochk)) {
+      updateNumericInput(session, "es1", value = input$es2 + input$esdelta)
+      updateNumericInput(session, "es3", value = input$es2 - input$esdelta)  
+    }
+  })
+  
   # Basic RR buttons
   observeEvent(input$inc_basic, {
     updateNumericInput(session, "rr_basic", value = input$rr_basic + 0.01)
@@ -261,9 +285,13 @@ function(input, output, session) {
   observeEvent(input$inc_erdr4, {
     updateNumericInput(session, "erdr4", value = input$erdr4 + 0.01)
   })
+  
   observeEvent(input$dec_erdr4, {
     updateNumericInput(session, "erdr4", value = input$erdr4 - 0.01)
   })
+  
+  
+  
   
   #part 3
   calc_err_adj_r02 <- reactive(1 -(log(input$erradj) / log(input$rr_basic)))
@@ -282,4 +310,7 @@ function(input, output, session) {
   output$es_rdrc_4 <- renderUI({ 
     tags$span(format(round(calc_rdrc_4(), 2), nsmall = 2)) 
   })
+  
+  
+  
 }

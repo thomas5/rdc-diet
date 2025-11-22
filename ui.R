@@ -5,11 +5,12 @@
 library(shiny)
 library(bslib)
 library(bsicons)
-
-
+library(shinyjs)
 theme_used <- "primary"
 
 fluidPage(
+  useShinyjs(),
+  
   theme = bs_theme(
     version = 5,
     #font_scale = 0.9
@@ -81,16 +82,17 @@ fluidPage(
                     span(
                       class = "ms-2 me-2 mt-1 mb-1 p-1",
                       HTML("
-              <p>RR<sub>basic</sub> = RR adjusted for age, sex and (where relevant) region </p>
-              <p>RR<sub>adj</sub> = RR adjsuted for measured confounders</p>
-              <ol>
-                <li>Enter RR<sub>basic</sub> and RR<sub>adj</sub> from RDC website</li>
-                <li>
-                  Enter either: <br />
-                  Estimate of RR<sub>adj</sub> <br />
-                  Estimate of correlation between measured confounders and Perfect Confounder Score
-                </li>
-              </ol>")),
+                      <p>RR<sub>basic</sub> = RR adjusted for age, sex and (where relevant) region </p>
+                      <p>RR<sub>adj</sub> = RR adjsuted for measured confounders</p>
+                      <ol>
+                        <li>Enter RR<sub>basic</sub> and RR<sub>adj</sub> from RDC website</li>
+                        <li>
+                          Enter either: <br />
+                          Estimate of RR<sub>adj</sub> <br />
+                          Estimate of correlation between measured confounders and Perfect Confounder Score
+                        </li>
+                      </ol>")
+                    ),
                     placement = "right"
                   )
                 ),
@@ -100,7 +102,7 @@ fluidPage(
                   class = "mt-3, mb-1",
                   p(HTML(
                     "<i>r<sub>0</sub> is the value of r that results in null association<br />
-          RR<sub>exact</sub> is the RR that would have been observed on adjustment for the Perfect Confounder Score</i>"))
+                    RR<sub>exact</sub> is the RR that would have been observed on adjustment for the Perfect Confounder Score</i>"))
                 ),
                 
                 #1 section
@@ -113,40 +115,56 @@ fluidPage(
                       12,
                       div(
                         class = "d-flex align-items-center gap-2",
-                        tags$label("Basic", class = "me-1"),
-                        numericInput(
-                          "rr_basic",
-                          label = NULL,
-                          value = 1.74,
-                          width = "200px"
-                        ),
-                        actionButton(
-                          "dec_basic", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_basic", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        ),
-                        tags$label("Ajusted", class = "ms-1"), 
-                        numericInput(
-                          "rr_adj",
-                          label = NULL,
-                          value = 1.56,
-                          width = "200px"
-                        ),
-                        actionButton(
-                          "dec_adj", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_adj", "+",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        )
+                        #tags$label("Basic", class = "me-1"),
+                        # numericInput(
+                        #   "rr_basic",
+                        #   label = NULL,
+                        #   value = 1.74,
+                        #   width = "200px"
+                        # ),
+                        # sliderInput(
+                        #   inputId = "rr_basic",
+                        #   label = NULL,
+                        #   min = 0,
+                        #   max = 5,
+                        #   value = 1.74,
+                        #   step = 0.01
+                        # ),
+                        # actionButton(
+                        #   "dec_basic", "-",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # actionButton(
+                        #   "inc_basic", "+",
+                        #   class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                        #   style = "width: 40px; height: 34px;"
+                        # ),
+                        #tags$label("Ajusted", class = "ms-1"), 
+                        # numericInput(
+                        #   "rr_adj",
+                        #   label = NULL,
+                        #   value = 1.56,
+                        #   width = "200px"
+                        # ),
+                        # actionButton(
+                        #   "dec_adj", "-",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # actionButton(
+                        #   "inc_adj", "+",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # sliderInput(
+                        #   inputId = "rr_adj",
+                        #   label = NULL,
+                        #   min = 0,
+                        #   max = 5,
+                        #   value = 1.56,
+                        #   step = 0.01
+                        # )
                       )
                     )
                   )
@@ -159,6 +177,24 @@ fluidPage(
                   layout_column_wrap(
                     class = "mt-1 mb-0",
                     width = 1/8,
+                    sliderInput(
+                      inputId = "rr_basic",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 1.74,
+                      step = 0.01
+                    ),
+                    # actionButton(
+                    #   "dec_basic", "-",
+                    #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                    #   style = "width:40px; height:34px;"
+                    # ),
+                    # actionButton(
+                    #   "inc_basic", "+",
+                    #   class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                    #   style = "width: 40px; height: 34px;"
+                    # ),
                     value_box(
                       class = "me-1",
                       value = div(class= "fw-bold", style = "font-size:1rem", textOutput("B_basic")),  # smaller font textOutput("B_basic"),
@@ -178,6 +214,14 @@ fluidPage(
                     class = "pb-1 pt-0 mt-0, mb-0",
                     width = 1/8,
                     #gap = "1rem",
+                    sliderInput(
+                      inputId = "rr_adj",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 1.56,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("B_adj")), title = div(style = "font-size:0.8rem", "B"), theme = theme_used, div(style = "font-size:0.6rem", "Adjusted"), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("r02_adj")), title = div(style = "font-size:0.8rem",HTML("% reduction (r<sub>0</sub><sup>2</sup>)")), theme = theme_used, div(style = "font-size:0.6rem", "Adjusted"), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("r0_adj")), title = div(style = "font-size:0.8rem",HTML("r<sub>0</sub>")), theme = theme_used, div(style = "font-size:0.6rem", "Adjusted"), style = "height:90px"),
@@ -207,23 +251,47 @@ fluidPage(
                       div(
                         class = "d-flex align-items-center gap-2 mt-1",
                         tags$label("Estimated (plausible):", class = ""),
-                        numericInput(
-                          "es1",
-                          label = NULL,
-                          value = 0.6,
-                          width = "200px"
-                        ),
+                        # sliderInput(
+                        #   inputId = "es2",
+                        #   label = "Base value",
+                        #   min = 0,
+                        #   max = 5,
+                        #   value = 0.6,
+                        #   step = 0.01
+                        # ),
+                        # sliderInput(
+                        #   inputId = "es1",
+                        #   label = "Lower bound",
+                        #   min = 0,
+                        #   max = 5,
+                        #   value = 0.7,
+                        #   step = 0.01
+                        # ),
+                        # sliderInput(
+                        #   inputId = "es3",
+                        #   label = "Upper bound",
+                        #   min = 0,
+                        #   max = 5,
+                        #   value = 0.8,
+                        #   step = 0.01
+                        # ),
+                        # numericInput(
+                        #   "es1",
+                        #   label = NULL,
+                        #   value = 0.6,
+                        #   width = "200px"
+                        # ),
                         # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_es1", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_es1", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
+                        # actionButton(
+                        #   "dec_es1", "-",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # actionButton(
+                        #   "inc_es1", "+",
+                        #   class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                        #   style = "width: 40px; height: 34px;"
+                        # )
                       )
                     )
                   ),
@@ -233,23 +301,23 @@ fluidPage(
                       div(
                         class = "d-flex align-items-center gap-2 mt-1",
                         tags$label("Estimate of RDR:", class = ""),
-                        numericInput(
-                          "erdr1",
-                          label = NULL,
-                          value = 0.65,
-                          width = "200px"
-                        ),
-                        # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_erdr1", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_erdr1", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
+                        # numericInput(
+                        #   "erdr1",
+                        #   label = NULL,
+                        #   value = 0.65,
+                        #   width = "200px"
+                        # ),
+                        # # square buttons using btn-sm and fixed width/height
+                        # actionButton(
+                        #   "dec_erdr1", "-",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # actionButton(
+                        #   "inc_erdr1", "+",
+                        #   class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                        #   style = "width: 40px; height: 34px;"
+                        # )
                       )
                     )
                   )
@@ -261,72 +329,89 @@ fluidPage(
                   #style = "padding-bottom: 1rem;",
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "es1",
+                      label = "Upper bound",
+                      min = 0,
+                      max = 5,
+                      value = 0.6,
+                      step = 0.01,
+                      disabled
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_r2_1")), title = div(style = "font-size:0.8rem", HTML("% reduction (r<sup>2</sup>)")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_bexact_1")), title = div(style = "font-size:0.8rem", HTML("B<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_rrexact_1")), title = div(style = "font-size:0.8rem", HTML("RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   ),
                   layout_column_wrap(
                     width = 1/4,
-                    value_box(value = div(style = "font-size:1rem",uiOutput("es_rdrc_1")), title = div(style = "font-size:0.8rem", HTML("RDR-corrected RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
+                    sliderInput(
+                      inputId = "erdr1",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 0.65,
+                      step = 0.01
+                    ),
+                    value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_rdrc_1")), title = div(style = "font-size:0.8rem", HTML("RDR-corrected RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   )
                 ),
                 
-                layout_column_wrap(
-                  class = "mb-1 mt-2",
-                  width = 1/2,
-                  fluidRow(
-                    column(
-                      12,
-                      div(
-                        class = "d-flex align-items-center gap-2 mt-1",
-                        tags$label("Estimated (plausible):", class = ""),
-                        numericInput(
-                          "es2",
-                          label = NULL,
-                          value = 0.7,
-                          width = "200px"
-                        ),
-                        # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_es2", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_es2", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
-                      )
-                    )
-                  ),
-                  fluidRow(
-                    column(
-                      12,
-                      div(
-                        class = "d-flex align-items-center gap-2 mt-1",
-                        tags$label("Estimate of RDR:", class = ""),
-                        numericInput(
-                          "erdr2",
-                          label = NULL,
-                          value = 0.65,
-                          width = "200px"
-                        ),
-                        # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_erdr2", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_erdr2", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
-                      )
-                    )
-                  )
-                ),
+                # layout_column_wrap(
+                #   class = "mb-1 mt-2",
+                #   width = 1/2,
+                #   fluidRow(
+                #     column(
+                #       12,
+                #       div(
+                #         class = "d-flex align-items-center gap-2 mt-1",
+                #         tags$label("Estimated (plausible):", class = ""),
+                #         numericInput(
+                #           "es2",
+                #           label = NULL,
+                #           value = 0.7,
+                #           width = "200px"
+                #         ),
+                #         # square buttons using btn-sm and fixed width/height
+                #         actionButton(
+                #           "dec_es2", "-",
+                #           class = "btn btn-sm d-flex justify-content-center align-items-center",
+                #           style = "width:40px; height:34px;"
+                #         ),
+                #         actionButton(
+                #           "inc_es2", "+",
+                #           class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                #           style = "width: 40px; height: 34px;"
+                #         )
+                #       )
+                #     )
+                #   ),
+                #   fluidRow(
+                #     column(
+                #       12,
+                #       div(
+                #         class = "d-flex align-items-center gap-2 mt-1",
+                #         tags$label("Estimate of RDR:", class = ""),
+                #         numericInput(
+                #           "erdr2",
+                #           label = NULL,
+                #           value = 0.65,
+                #           width = "200px"
+                #         ),
+                #         # square buttons using btn-sm and fixed width/height
+                #         actionButton(
+                #           "dec_erdr2", "-",
+                #           class = "btn btn-sm d-flex justify-content-center align-items-center",
+                #           style = "width:40px; height:34px;"
+                #         ),
+                #         actionButton(
+                #           "inc_erdr2", "+",
+                #           class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                #           style = "width: 40px; height: 34px;"
+                #         )
+                #       )
+                #     )
+                #   )
+                # ),
                 
                 layout_column_wrap(
                   class = "mb-1 mt-2",
@@ -334,87 +419,134 @@ fluidPage(
                   #style = "padding-bottom: 1rem;",
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "es2",
+                      label = "Base Value",
+                      min = 0,
+                      max = 5,
+                      value = 0.7,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("es_r2_2")), title = div(style = "font-size:0.8rem", HTML("% reduction (r<sup>2</sup>)")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("es_bexact_2")), title = div(style = "font-size:0.8rem", HTML("B<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("es_rrexact_2")), title = div(style = "font-size:0.8rem", HTML("RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   ),
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "erdr2",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 0.65,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem", uiOutput("es_rdrc_2")), title = div(style = "font-size:0.8rem", HTML("RDR-corrected RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   )
                 ),
                 
-                layout_column_wrap(
-                  class = "mb-1",
-                  width = 1/2,
-                  fluidRow(
-                    column(
-                      12,
-                      div(
-                        class = "d-flex align-items-center gap-2 mt-1",
-                        tags$label("Estimated (plausible):", class = ""),
-                        numericInput(
-                          "es3",
-                          label = NULL,
-                          value = 0.8,
-                          width = "200px"
-                        ),
-                        # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_es3", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_es3", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
-                      )
-                    )
-                  ),
-                  fluidRow(
-                    column(
-                      12,
-                      div(
-                        class = "d-flex align-items-center gap-2 mt-1",
-                        tags$label("Estimate of RDR:", class = ""),
-                        numericInput(
-                          "erdr3",
-                          label = NULL,
-                          value = 0.65,
-                          width = "200px"
-                        ),
-                        # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_erdr3", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_erdr3", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
-                      )
-                    )
-                  )
-                ),
+                # layout_column_wrap(
+                #   class = "mb-1",
+                #   width = 1/2,
+                #   fluidRow(
+                #     column(
+                #       12,
+                #       div(
+                #         class = "d-flex align-items-center gap-2 mt-1",
+                #         tags$label("Estimated (plausible):", class = ""),
+                #         numericInput(
+                #           "es3",
+                #           label = NULL,
+                #           value = 0.8,
+                #           width = "200px"
+                #         ),
+                #         # square buttons using btn-sm and fixed width/height
+                #         actionButton(
+                #           "dec_es3", "-",
+                #           class = "btn btn-sm d-flex justify-content-center align-items-center",
+                #           style = "width:40px; height:34px;"
+                #         ),
+                #         actionButton(
+                #           "inc_es3", "+",
+                #           class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                #           style = "width: 40px; height: 34px;"
+                #         )
+                #       )
+                #     )
+                #   ),
+                #   fluidRow(
+                #     column(
+                #       12,
+                #       div(
+                #         class = "d-flex align-items-center gap-2 mt-1",
+                #         tags$label("Estimate of RDR:", class = ""),
+                #         numericInput(
+                #           "erdr3",
+                #           label = NULL,
+                #           value = 0.65,
+                #           width = "200px"
+                #         ),
+                #         # square buttons using btn-sm and fixed width/height
+                #         actionButton(
+                #           "dec_erdr3", "-",
+                #           class = "btn btn-sm d-flex justify-content-center align-items-center",
+                #           style = "width:40px; height:34px;"
+                #         ),
+                #         actionButton(
+                #           "inc_erdr3", "+",
+                #           class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                #           style = "width: 40px; height: 34px;"
+                #         )
+                #       )
+                #     )
+                #   )
+                # ),
                 
                 layout_column_wrap(
                   class = "mt-2 mb-1",
                   width = 1/2,
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "es3",
+                      label = "Lower bound",
+                      min = 0,
+                      max = 5,
+                      value = 0.8,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_r2_3")), title = div(style = "font-size:0.8rem", HTML("% reduction (r<sup>2</sup>)")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_bexact_3")), title = div(style = "font-size:0.8rem", HTML("B<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_rrexact_3")), title = div(style = "font-size:0.8rem", HTML("RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   ),
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "erdr3",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 0.65,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_rdrc_3")), title = div(style = "font-size:0.8rem", HTML("RDR-corrected RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   )
                 ),
+                
+                
+                div(
+                  class = "d-flex align-items-center gap-2",
+                  tags$label("Delta", class = "me-1"),
+                  numericInput(
+                    width = "100px",
+                    "esdelta",
+                    label = NULL,
+                    value = 0.1,
+                    step = 0.1
+                  ),
+                  checkboxInput("esdautochk", "Auto-adjust plausible bounds", value = TRUE)
+                ),
+                
                 
                 #tags$hr(),
                 
@@ -429,23 +561,23 @@ fluidPage(
                       12,
                       div(
                         class = "d-flex align-items-center gap-2 mt-1",
-                        tags$label(HTML("Estimated RR<sub>adj</sub>:"), class = ""),
-                        numericInput(
-                          "erradj",
-                          label = NULL,
-                          value = 0.7,
-                          width = "200px"
-                        ),
-                        actionButton(
-                          "dec_erradj", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_erradj", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
+                        # tags$label(HTML("Estimated RR<sub>adj</sub>:"), class = ""),
+                        # numericInput(
+                        #   "erradj",
+                        #   label = NULL,
+                        #   value = 0.7,
+                        #   width = "200px"
+                        # ),
+                        # actionButton(
+                        #   "dec_erradj", "-",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # actionButton(
+                        #   "inc_erradj", "+",
+                        #   class = "btn btn-sm d-flex align-items-center justify-content-center",
+                        #   style = "width: 40px; height: 34px;"
+                        # )
                       )
                     )
                   ),
@@ -453,25 +585,25 @@ fluidPage(
                     column(
                       12,
                       div(
-                        class = "d-flex align-items-center gap-2 mt-1",
-                        tags$label("Estimate of RDR:", class = ""),
-                        numericInput(
-                          "erdr4",
-                          label = NULL,
-                          value = 0.65,
-                          width = "200px"
-                        ),
-                        # square buttons using btn-sm and fixed width/height
-                        actionButton(
-                          "dec_erdr4", "-",
-                          class = "btn btn-sm d-flex justify-content-center align-items-center",
-                          style = "width:40px; height:34px;"
-                        ),
-                        actionButton(
-                          "inc_erdr4", "+",
-                          class = "btn btn-sm d-flex align-items-center justify-content-center", 
-                          style = "width: 40px; height: 34px;"
-                        )
+                        # class = "d-flex align-items-center gap-2 mt-1",
+                        # tags$label("Estimate of RDR:", class = ""),
+                        # numericInput(
+                        #   "erdr4",
+                        #   label = NULL,
+                        #   value = 0.65,
+                        #   width = "200px"
+                        # ),
+                        # # square buttons using btn-sm and fixed width/height
+                        # actionButton(
+                        #   "dec_erdr4", "-",
+                        #   class = "btn btn-sm d-flex justify-content-center align-items-center",
+                        #   style = "width:40px; height:34px;"
+                        # ),
+                        # actionButton(
+                        #   "inc_erdr4", "+",
+                        #   class = "btn btn-sm d-flex align-items-center justify-content-center", 
+                        #   style = "width: 40px; height: 34px;"
+                        # )
                       )
                     )
                   )
@@ -484,11 +616,27 @@ fluidPage(
                   width = 1/2,
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "erradj",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 1.30,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("r02_rr_adj")), title = div(style = "font-size:0.8rem", HTML("% reduction (r<sub>0</sub><sup>2</sup>)")), theme = theme_used, p(""), style = "height:90px"),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("r0_rr_adj")), title = div(style = "font-size:0.8rem", HTML("r<sub>0</sub>")), theme = theme_used, p(""), style = "height:90px")
                   ),
                   layout_column_wrap(
                     width = 1/4,
+                    sliderInput(
+                      inputId = "erdr4",
+                      label = NULL,
+                      min = 0,
+                      max = 5,
+                      value = 0.65,
+                      step = 0.01
+                    ),
                     value_box(value = div(class= "fw-bold", style = "font-size:1rem",uiOutput("es_rdrc_4")), title = div(style = "font-size:0.8rem", HTML("RDR-corrected RR<sub>exact</sub>")), theme = theme_used, p(""), style = "height:90px")
                   )
                 )
